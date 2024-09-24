@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Page</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #outer {
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+            text-align: center; /* Center text */
+            padding: 20px; /* Padding around the outer div */
+        }
+        #inner {
+            margin: 10px 0; /* Margin between inner elements */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* Space above the button */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 100%; /* Make sure the image is responsive */
+            height: auto; /* Maintain aspect ratio */
+            margin: 20px 0; /* Space around the image */
+        }
+    </style>
+</head>
+<body>
+    <div id="outer">
+        <div id="inner">
+            <div style="color: #007BFF; margin-bottom: 10px;">  YOUR BOTNAME </div>
+            <div style="margin-bottom: 20px;">Using this software, you can ask questions and receive info about your images.</div>
+            <img src="bot ui.png" alt="bot image">
+        </div>
+        <button id="redirectBtn">CONTINUE</button>
+    </div>
+    <script>
+        const redirectBtn = document.getElementById('redirectBtn');
+
+        redirectBtn.addEventListener('click', () => {
+            window.location.href = 'one.html'; // Change this to your target page
+        });
+    </script>
+</body>
+</html>

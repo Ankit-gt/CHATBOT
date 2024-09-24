@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Capture</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none; /* Remove default border */
+            border-radius: 20px; /* Rounded corners */
+            background-color: #007BFF; /* Button color */
+            color: white; /* Text color */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <img src="mascot.png" alt="bot logo" style="height:25vh;" >
+    <h1 style="color: #007BFF;">HELLO ! <br>  </h1>
+    <h2 style="color: #007BFF;">  My name is chatbot</h2>
+    <h3 style="color: #007BFF;"> Plz upload/capture the image you want info about</h3>
+    <button id="uploadBtn">Upload Image</button>
+    <button id="captureBtn">Capture Image</button>
+
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    <video id="video" style="display: none;" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <img id="imagePreview" src="" alt="Image Preview">
+
+    <script>
+        const uploadBtn = document.getElementById('uploadBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        const fileInput = document.getElementById('fileInput');
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const imagePreview = document.getElementById('imagePreview');
+
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    video.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        captureBtn.addEventListener('click', async () => {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                video.style.display = 'block';
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+
+                // Capture the image when the video is clicked
+                video.addEventListener('click', () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const context = canvas.getContext('2d');
+                    context.drawImage(video, 0, 0);
+                    const dataUrl = canvas.toDataURL();
+                    imagePreview.src = dataUrl;
+                    imagePreview.style.display = 'block';
+                    video.style.display = 'none';
+                    stream.getTracks().forEach(track => track.stop()); // Stop the video stream
+                });
+            } else {
+                alert("Camera not available.");
+            }
+        });
+    </script>
+</body>
+</html>
